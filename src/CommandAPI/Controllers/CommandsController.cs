@@ -9,7 +9,7 @@ namespace CommandAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] {"this", "is", "hard", "coded"};
+            return new string[] { "this", "is", "hard", "coded" };
         }
     }
 }
