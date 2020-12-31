@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Npgsql;
 using CommandAPI.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,8 +27,13 @@ namespace CommandAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var builder = new NpgsqlConnectionStringBuilder();
+            builder.ConnectionString =
+            Configuration.GetConnectionString("PostgreSqlConnection");
+            builder.Username = Configuration["UserID"];
+            builder.Password = Configuration["Password"];
             services.AddDbContext<CommandContext>(opt => opt.UseNpgsql
-                    (Configuration.GetConnectionString("PostgreSqlConnection")));
+                    ((builder.ConnectionString)));
             services.AddControllers();
             services.AddScoped<ICommandAPIRepo, SqlCommandAPIRepo>();
         }
